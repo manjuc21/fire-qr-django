@@ -16,6 +16,10 @@ from django.shortcuts import render
 def custom_404(request, exception):
     return render(request, '404.html', {}, status=404)
 
+from django.shortcuts import render
+
+def home1(request):
+    return render(request, 'viewqr.html')
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):

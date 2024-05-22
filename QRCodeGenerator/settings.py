@@ -16,6 +16,14 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'Vehicles', 'static'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -23,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-w#n0f96zs1^a)l#3)um+^q4eipga)xw2723spb8^vn&45_oa!b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
@@ -116,14 +124,17 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+from django.conf import settings
+from django.conf.urls.static import static
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 # Static files (CSS, JavaScript, images)
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+
+
+# if settings.DEBUG:
+#     urlpatterns = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 # Default primary key field type

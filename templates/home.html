@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Details Form</title>
+    <link rel="stylesheet" href="/static/home.css" />
+    <style>
+      #linktoget-qr {
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+        background-color: #1175e0;
+        width: max-content;
+        padding: 5px;
+      }
+      #linktoget-qr > a {
+        text-decoration: underline;
+        color: white;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    {% if qr_image == Null %}
+    <h1>Vehicle Information</h1>
+    <h2 id="linktoget-qr">
+      Already registered the vehicle here?
+      <a href="{% url 'fetch' %}"> Get my QR Code!</a>
+    </h2>
+    <form id="form" action="{% url 'store-vehicle' %}" method="post">
+      {% csrf_token %}
+      <label for="registration_number">Registration Number:</label>
+      <input
+        type="text"
+        id="registration_number"
+        name="registration_number"
+        placeholder="eg. XX XX XX XXXX"
+        required
+      /><br /><br />
+
+      <label for="manufactured_by">Manufactured By:</label>
+      <input
+        type="text"
+        id="manufactured_by"
+        name="manufactured_by"
+        placeholder="eg. Mahindra"
+        required
+      /><br /><br />
+
+      <label for="vehicle_model">Vehicle Model:</label>
+      <input
+        type="text"
+        id="vehicle_model"
+        name="vehicle_model"
+        placeholder="eg. Bolero XL"
+        required
+      /><br /><br />
+
+      <label for="year_of_manufacture">Year of Manufacture:</label>
+      <input
+        type="number"
+        id="year_of_manufacture"
+        name="year_of_manufacture"
+        placeholder="eg. 2019"
+        required
+      /><br /><br />
+
+      <label for="body_built_by">Body Built By:</label>
+      <input
+        type="text"
+        id="body_built_by"
+        name="body_built_by"
+        placeholder="eg. Mahindra & Mahindra"
+        required
+      /><br /><br />
+
+      <label for="type_of_vehicle">Type of Vehicle:</label>
+      <input
+        type="text"
+        id="type_of_vehicle"
+        name="type_of_vehicle"
+        placeholder="eg. Water Tender"
+        required
+      /><br /><br />
+
+      <label for="battery_size">Battery Size:</label>
+      <input
+        type="text"
+        id="battery_size"
+        name="battery_size"
+        placeholder="eg. 12 v 11 PLATS"
+        required
+      /><br /><br />
+
+      <label for="tyre_size">Tyre Size:</label>
+      <input
+        type="text"
+        id="tyre_size"
+        name="tyre_size"
+        placeholder="eg. 215/47 R15"
+        required
+      /><br /><br />
+
+      <label for="chassis_number">Chassis Number:</label>
+      <input
+        type="text"
+        id="chassis_number"
+        name="chassis_number"
+        placeholder="eg. MA3EED81S00123456"
+        required
+      /><br /><br />
+
+      <label for="engine_number">Engine Number:</label>
+      <input
+        type="text"
+        id="engine_number"
+        name="engine_number"
+        placeholder="eg. D13A1234567"
+        required
+      /><br /><br />
+
+      <label for="date_of_delivery">Date of Delivery:</label>
+      <input
+        type="date"
+        id="date_of_delivery"
+        name="date_of_delivery"
+        required
+      /><br /><br />
+
+      <label for="order_number">Order Number:</label>
+      <input
+        type="text"
+        id="order_number"
+        name="order_number"
+        placeholder="eg. STS/XX/XXXX"
+        required
+      /><br /><br />
+
+      <label for="kgid_policy_number">KGID Policy Number:</label>
+      <input
+        type="text"
+        id="kgid_policy_number"
+        name="kgid_policy_number"
+        placeholder="eg. 1234567"
+        required
+      /><br /><br />
+
+      <label for="location">Location of use:</label>
+      <input
+        type="text"
+        id="location"
+        name="location"
+        placeholder="eg. Jayanagar"
+        required
+      /><br /><br />
+
+      <button type="submit">Submit</button>
+    </form>
+    {% else %}
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h2 style="color: white; text-align: center">{{message}}</h2>
+      <h3 style="color: white; text-align: center">
+        Scan the below QR Code for the details of the vehicle
+        {{registration_number}}
+      </h3>
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 50vh;
+        "
+      >
+        <img
+          src="data:image/png;base64,{{ qr_image }}"
+          alt="QR Code"
+          width="300"
+          height="300"
+          style="margin-bottom: 10px"
+        />
+      </div>
+      <div style="text-align: center; margin: 10px">
+        <button
+          onclick="window.print();"
+          style="
+            width: 100px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+          "
+        >
+          Print
+        </button>
+        <a href="data:image/png;base64,{{ qr_image }}" download="VehicleQR.png"
+          ><button
+            style="
+              width: 100px;
+              padding: 10px;
+              background-color: #007bff;
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+            "
+          >
+            Download
+          </button></a
+        >
+      </div>
+      <form action="{% url 'home' %}" method="GET">
+        {% csrf_token %}
+        <button type="submit">Go to Home</button>
+      </form>
+    </div>
+    {% endif %}
+  </body>
+</html>
